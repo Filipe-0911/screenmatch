@@ -3,10 +3,8 @@ package br.com.alura.screenmatch.principal;
 import br.com.alura.screenmatch.modelos.Filme;
 import br.com.alura.screenmatch.modelos.Serie;
 import br.com.alura.screenmatch.modelos.Titulo;
-import org.w3c.dom.ls.LSOutput;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class PrincipalComListas {
     public static void main(String[] args) {
@@ -19,7 +17,7 @@ public class PrincipalComListas {
 
         Serie lost = new Serie("Lost",2004,10,10,50);
 
-        ArrayList<Titulo> lista = new ArrayList<>(10);
+        List<Titulo> lista = new ArrayList<>(10);
 
         lista.add(filmeDoFilipe);
         lista.add(meuFilme);
@@ -35,7 +33,7 @@ public class PrincipalComListas {
 
         }
 
-        ArrayList<String> buscaPorArtista = new ArrayList<>();
+        List<String> buscaPorArtista = new LinkedList<>();
 
         buscaPorArtista.add("Olavo");
         buscaPorArtista.add("Ianca");
@@ -47,5 +45,10 @@ public class PrincipalComListas {
         Collections.sort(lista);
 
         System.out.println(lista);
+        //Metodo de comparação utilizando lambda function
+        lista.sort(Comparator.comparing(Titulo::getAnoDeLancamento));
+        System.out.println(lista);
+
+
     }
 }
