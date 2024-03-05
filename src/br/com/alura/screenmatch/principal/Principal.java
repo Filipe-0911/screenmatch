@@ -1,3 +1,5 @@
+package br.com.alura.screenmatch.principal;
+
 import br.com.alura.screenmatch.calculos.FiltroRecomendacao;
 import br.com.alura.screenmatch.modelos.Episodio;
 import br.com.alura.screenmatch.modelos.Filme;
@@ -8,10 +10,11 @@ import java.util.ArrayList;
 
 public class Principal {
     public static void main(String[] args) {
-        Filme meuFilme = new Filme();
-        meuFilme.setNome("O poderoso chefão");
-        meuFilme.setAnoDeLancamento(1970);
-        meuFilme.setDuracaoEmMinutos(180);
+        Filme meuFilme = new Filme("O poderoso chefão",1970, 180);
+        Filme outroFilme = new Filme("Avatar", 2023, 180);
+        Filme filmeDoFilipe = new Filme("Dogville", 2003, 200);
+        Serie lost = new Serie("Lost",2004,10,10,50);
+
         meuFilme.exibeFichaTecnica();
         meuFilme.avalia(8);
         meuFilme.avalia(10);
@@ -20,19 +23,8 @@ public class Principal {
         System.out.println(meuFilme.pegaMedia());
         System.out.println(meuFilme.getTotalDeAvaliacoes());
 
-        Serie lost = new Serie();
-        lost.setNome("Lost");
-        lost.setAnoDeLancamento(2004);
-        lost.setTemporadas(10);
-        lost.setEpisodiosPorTemporada(10);
-        lost.setMinutosPorEpisodio(50);
         System.out.println("Duração em minutos " + lost.getDuracaoEmMinutos());;
         lost.exibeFichaTecnica();
-
-        Filme outroFilme = new Filme();
-        outroFilme.setNome("Avatar");
-        outroFilme.setAnoDeLancamento(2023);
-        outroFilme.setDuracaoEmMinutos(180);
 
         CalculadoraDeTempo calculadora = new CalculadoraDeTempo();
         calculadora.inclui(meuFilme);
@@ -49,13 +41,9 @@ public class Principal {
         episodio.setTotalVisualizacoes(300);
         filtro.filtra(episodio);
 
-        Filme filmeDoFilipe = new Filme();
-        filmeDoFilipe.setDuracaoEmMinutos(200);
-        filmeDoFilipe.setNome("Dogville");
-        filmeDoFilipe.setAnoDeLancamento(2003);
         filmeDoFilipe.avalia(10);
 
-        ArrayList<Filme> listaDeFilmes = new ArrayList<>();
+        ArrayList<Filme> listaDeFilmes = new ArrayList<>(10);
         listaDeFilmes.add(filmeDoFilipe);
         listaDeFilmes.add(meuFilme);
         listaDeFilmes.add(outroFilme);
