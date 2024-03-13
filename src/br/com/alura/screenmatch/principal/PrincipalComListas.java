@@ -15,7 +15,7 @@ public class PrincipalComListas {
         Filme filmeDoFilipe = new Filme("Dogville", 2003);
         filmeDoFilipe.avalia(10);
 
-        Serie lost = new Serie("Lost",2004,10,10,50);
+        Serie lost = new Serie("Lost",2004);
 
         List<Titulo> lista = new ArrayList<>(10);
 
