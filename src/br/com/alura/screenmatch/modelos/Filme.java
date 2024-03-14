@@ -35,9 +35,7 @@ public class Filme extends Titulo implements Classificavel {
     
     @Override
     public String toString() {
-        String stringoDoFilme = 
-        "Nome: %s; Ano de lançamento: %d; Diretor: %s; Descrição: %s"
+        return "Nome: %s; Ano de lançamento: %d; Diretor: %s; Descrição: %s"
         .formatted(this.getNome(), this.getAnoDeLancamento(), this.getDiretor(), this.getDescricao());
-        return stringoDoFilme;
     }
 }
