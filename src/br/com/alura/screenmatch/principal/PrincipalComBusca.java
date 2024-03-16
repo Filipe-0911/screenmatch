@@ -1,63 +1,53 @@
 package br.com.alura.screenmatch.principal;
 
+import br.com.alura.screenmatch.modelos.ConectaAPI;
 import br.com.alura.screenmatch.modelos.ErroDeConversaoDeAnoException;
-
-// import br.com.alura.screenmatch.modelos.Filme;
+import br.com.alura.screenmatch.modelos.EscreveJson;
+import br.com.alura.screenmatch.modelos.GsonPrettyPrinting;
 
 import br.com.alura.screenmatch.modelos.Titulo;
 import br.com.alura.screenmatch.modelos.TituloOmdb;
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class PrincipalComBusca {
     public static void main(String[] args) throws IOException, InterruptedException {
         Scanner leitura = new Scanner(System.in);
-        System.out.println("Digite um filme para busca: ");
-        var busca = leitura.nextLine().toLowerCase();
-        leitura.close();
+        String busca = "";
+        List<Titulo> listaTitulo = new ArrayList<>();
 
-        String endereco = "https://www.omdbapi.com/?t=" + busca.replaceAll(" ", "+") + "&apikey=975cb0b4";
+        Gson gson = new GsonPrettyPrinting().getGson();
+        
+        while (!busca.equalsIgnoreCase("sair")) {
+            System.out.println("Digite um filme para busca ou Digite sair: ");
+            busca = leitura.nextLine().toLowerCase();
+            if (busca.equals("sair")) break;
 
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(endereco))
-                    .build();
-            HttpResponse<String> response = client
-                    .send(request, HttpResponse.BodyHandlers.ofString());
+            try {
+                String json = new ConectaAPI(busca).getJsonRetornado();
+                TituloOmdb meuTituloOmdb = gson.fromJson(json, TituloOmdb.class);
+                Titulo meuTitulo = new Titulo(meuTituloOmdb);
+                listaTitulo.add(meuTitulo);
 
-            String json = response.body();
-            System.out.println(json);
-
-            Gson gson = new GsonBuilder()
-                    .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                    .create();
-
-            TituloOmdb meuTituloOmdb = gson.fromJson(json, TituloOmdb.class);
-            System.out.println(meuTituloOmdb);
-
-            // try {
-            Titulo meuTitulo = new Titulo(meuTituloOmdb);
-            System.out.println(meuTitulo);
-
-        } catch (NumberFormatException e) {
-            System.out.println("Aconteceu um erro");
-            System.out.println(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ocorreu um erro, verifique o endereço de busca.");
-            System.out.println(e.getMessage());
-        } catch (ErroDeConversaoDeAnoException e) {
-            System.out.println(e);
-        } finally {
-            System.out.println("O programa finalizou corretamente");
+            } catch (NumberFormatException e) {
+                System.out.println("Aconteceu um erro");
+                System.out.println(e.getMessage());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ocorreu um erro, verifique o endereço de busca.");
+                System.out.println(e.getMessage());
+            } catch (ErroDeConversaoDeAnoException e) {
+                System.out.println(e);
+            } finally {
+                System.out.println("O programa finalizou corretamente");
+            }
         }
+
+        leitura.close();
+        EscreveJson escreve = new EscreveJson("titulos.json", listaTitulo);
+        escreve.escreve();
     }
 }

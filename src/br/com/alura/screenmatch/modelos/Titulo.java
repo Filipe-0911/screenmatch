@@ -4,7 +4,9 @@ package br.com.alura.screenmatch.modelos;
 
 public class Titulo implements Comparable<Titulo> {
     private String nome;
+    private String poster;
     private int anoDeLancamento;
+
     private boolean incluidoNoPlano;
     private double somaDasAvaliacoes;
     private int totalDeAvaliacoes;
@@ -23,6 +25,7 @@ public class Titulo implements Comparable<Titulo> {
         }
         this.anoDeLancamento = Integer.valueOf(meuTituloOmdb.year().substring(0,4));
         this.duracaoEmMinutos = Integer.valueOf(meuTituloOmdb.runtime().substring(0,3));
+        this.poster = meuTituloOmdb.poster();
     }
 
     public String getNome() {
@@ -73,6 +76,14 @@ public class Titulo implements Comparable<Titulo> {
 
     public double pegaMedia(){
         return somaDasAvaliacoes / totalDeAvaliacoes;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public double getSomaDasAvaliacoes() {
+        return somaDasAvaliacoes;
     }
 
     @Override
